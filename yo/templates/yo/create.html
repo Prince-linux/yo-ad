@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ad</title>
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
+<!--              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <script src="{% static 'bootstrap/js/bootstrap.js}" type="text/javascript"></script>
+    </head>
+
+    <body>
+
+        <div id="preloader">
+            <div class="yummy-load"></div>
+        </div>
+
+        <!-- ****** Top Header Area Start ****** -->
+        <div class="top_header_area">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-4">
+                        <header>
+                            <a href="/yo/" class="logo">
+                                <img src="{% static 'custom/images/yo-yo.svg' %}"  width="40" height="40" alt="logo">
+                            </a>
+                        </header>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- ****** Top Header Area End ****** -->
+
+        <h2>Create new Ad</h2>
+
+        <form action="/new/" method="Post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+            {{ form.errors }}
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.name_of_item.id_for_label}}">{{form.name_of_item.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.name_of_item.id_for_label}}" class="form-control" name="{{form.name_of_item.name}}"  maxlength="20"  type="{{form.name_of_item.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.publisher.id_for_label}}">{{form.publisher.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.publisher.id_for_label}}" class="form-control" name="{{form.publisher.name}}" maxlength="20"  type="{{form.publisher.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.date_published.id_for_label}}">{{form.date_published.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.date_published.id_for_label}}" class="form-control" name="{{form.date_published.name}}" maxlength="20"  type="{{form.date_published.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.description_of_item.id_for_label}}">{{form.description_of_item.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.description_of_item.id_for_label}}" class="form-control" name="{{form.description_of_item.name}}" maxlength="20"  type="{{form.description_of_item.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.price.id_for_label}}">{{form.price.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.price.id_for_label}}" class="form-control" name="{{form.price.name}}" maxlength="20"  type="{{form.price.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.category_of_item.id_for_label}}">{{form.category_of_item.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <select class="form-control" id="{{form.category_of_item.id_for_label}}" name="{{form.category_of_item.name}}" type="{{form.category_of_item.field.widget.select_type}}">
+                            {%  for choice in form.category_of_item.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.location.id_for_label}}">{{form.location.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <select class="form-control" id="{{form.location.id_for_label}}" name="{{form.location.name}}" type="{{form.location.field.widget.select_type}}">
+                            {%  for choice in form.location.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.brand_name_of_item.id_for_label}}">{{form.brand_name_of_item.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <select class="form-control" id="{{form.brand_name_of_item.id_for_label}}" name="{{form.brand_name_of_item.name}}" type="{{form.brand_name_of_item.field.widget.select_type}}">
+                            {%  for choice in form.brand_name_of_item.field.choices %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <label class="col-form-label" for="{{form.contact.id_for_label}}">{{form.contact.label}}</label>
+                </div>
+                <div class="form-group col-8">
+
+                    <input id="{{form.contact.id_for_label}}" class="form-control" name="{{form.contact.name}}" maxlength="20"  type="{{form.contact.field.widget.input_type}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+
+                         <label class="col-form-label" for="{{form.item_image.id_for_label}}">{{form.item_image.label}}</label>
+                </div>
+
+                <div class="form-check">
+                    <div class="col-8">
+                        <input id="{{form.item_image.id_for_label}}" name="{{form.item_image.name}}" type="file">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+
+                         <label class="col-form-label" for="{{form.available.id_for_label}}">{{form.available.label}}</label>
+                </div>
+
+                    <div class="form-check">
+                        <div class="col-8">
+                            <input class="form-check-input" type="checkbox" id="{{form.available.id_for_label}}">
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+
+                         <label class="col-form-label" for="{{form.approved.id_for_label}}">{{form.approved.label}}</label>
+                </div>
+
+                    <div class="form-check">
+                        <div class="col-8">
+                            <input class="form-check-input" type="checkbox" id="{{form.approved.id_for_label}}">
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-2">
+
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+            </div>
+        </form>
+
+    </body>
+
+</html>
