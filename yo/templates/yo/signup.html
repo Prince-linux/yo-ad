@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1 class="text-center login-title">Sign Up</h1>
+
     <form method="POST">
         {% csrf_token %} {{ form.as_p }}
         <button type="submit">Submit</button>
