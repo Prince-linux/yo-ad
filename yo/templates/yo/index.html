@@ -1,210 +1,50 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 {% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block content %}
 
-    <!--	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
-    <!--		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
-        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-        <script src="{% static 'bootstrap/js/bootstrap.js' %}" type="text/javascript"></script>
-        <link href="{% static 'custom/css/main.css' %}" rel="stylesheet">
-        <link rel="icon" href="{%static 'img/core-img/favicon.ico' %}">
-        <!-- Responsive CSS -->
-        <link href="{% static 'css/responsive/responsive.css' %}" rel="stylesheet">
+{% if items   %}
 
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <div class="container">
 
-        <title>YO!</title>
+        {% for row in items %}
+            <div class="row">
+                {% for item in row%}
 
+                    <div class="col-4">
 
-        <!-- Bootstrap CSS CDN
-
-        <script src="http://thecodeplayer.com/uploads/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/balloon-css/0.5.0/balloon.min.css">
-
-
-        -->
-
-
-    </head>
-
-    <body>
-
-    <!--        <div id="preloader">-->
-    <!--            <div class="yummy-load"></div>-->
-    <!--        </div>-->
-
-        <div class="container">
-            <!--  Login Register Area -->
-            {% if user.is_authenticated %}
-                Welcome {{ user.username }}
-                <p><a href="/logout/"> Logout </a></p>
-            {% else %}
-                <p>You are not logged in<a href="/login/"> Login </a> | <a href="/register/"> Signup </a></p>
-            {% endif %}
-
-            <nav class="navbar navbar-expand-lg navbar sticky-top navbar-dark bg-dark">
-                <a class="pull-left" href="/yo/">
-                    <img src="{% static 'custom/images/yo-yo.svg' %}" width="40" height="40">
-                </a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="/yo/">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">About Us</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Categories
-                    </a>
-
-                      <ul class="dropdown-menu">
-                          <li><a href="#">{item.category_of_item}</a> </li>
-                      </ul>
-
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Contact Us
-                    </a>
-
-                     <ul class="dropdown-menu">
-                         <li><a href="#">Email</a></li>
-                         <li><a href="#">Phone</a></li>
-                         <li role="separator" class="divider"></li>
-                         <li><a href="#">Set Appointment</a></li>
-                     </ul>
-
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search for anything" aria-label="Search">
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-              </div>
-            </nav>
-
-            <section>
-                <h1 class="yo">Welcome to YO!</h1>
-                <p class="subhead">The Quick and Fast Way to Buy and Sell Anything</p>
-            </section>
-        </div>
-
-
-
-        {% if items   %}
-
-            <div class="container">
-
-                {% for row in items %}
-                    <div class="row">
-                        {% for item in row%}
-
-                            <div class="col-4">
-
-                                <div class="card-deck"style="text-align: center">
-                                    <div class="card">
-                                        <img src="{{item.item_image.url}}" class="card-img-top" alt="ad_item_image" width="120" height="250">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ item.name_of_item }}</h5>
-                                            <p class="card-title">{{ item.price}}</p>
-                                            <p class="card-title">{{ item.location}}</p>
-                                            <p class="card-title">{{ item.publisher}}</p>
-                                            <a href="/item_detail/{{item.id}}/" class="btn btn-outline-primary">Click to view item</a>
-                                        </div>
-                                        <div class="card-footer">
-                                            <small class="text-muted">{{ item.date_published }}</small>
-                                        </div>
-                                    </div>
+                        <div class="card-deck"style="text-align: center">
+                            <div class="card">
+                                <img src="{{item.item_image.url}}" class="card-img-top" alt="ad_item_image" width="120" height="250">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.name_of_item }}</h5>
+                                    <p class="card-title">{{ item.price}}</p>
+                                    <p class="card-title">{{ item.location}}</p>
+                                    <p class="card-title">{{ item.publisher}}</p>
+                                    <a href="/item_detail/{{item.id}}/" class="btn btn-outline-primary">Click to view item</a>
                                 </div>
-
+                                <div class="card-footer">
+                                    <small class="text-muted">{{ item.date_published }}</small>
+                                </div>
                             </div>
-                        {% endfor %}
-                    </div><br/>
+                        </div>
+
+                    </div>
                 {% endfor %}
-            </div>
+            </div><br/>
+        {% endfor %}
+    </div>
 
 
 
-        {% else %}
-            <p>There are no ads</p>
-        {% endif %}
-        <div>
-                <br>
-                <a href="/create/" class="btn btn-info btn-sm active" role="button" aria-pressed="true">Click here to create an ad</a>
-        </div>
+{% else %}
+    <p>There are no ads</p>
+{% endif %}
+<div>
+    <br>
+    <a href="/create/" class="btn btn-info btn-sm active" role="button" aria-pressed="true">Click here to create an ad</a>
+    <br>
+    <br>
+    <a href="/approve/" class="btn btn-info btn-sm active" role="button" aria-pressed="true">Click here to see ads that needs approval</a>
+</div>
 
-        <!--
-
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-        -->
-
-
-
-        <!-- ****** Footer Menu Area Start ****** -->
-        <footer class="footer_area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="footer-content">
-                            <!-- Logo Area Start -->
-                            <div class="footer-logo-area text-center">
-                                <a href="/yo/" class="yo-logo">YO!</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Copyright Text -->
-                        <div class="copy_right_text text-center">
-                            <p>Copyright @2019 All rights reserved | Peedor Networks</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <!-- ****** Footer Menu Area End ****** -->
-
-        <!-- Jquery-2.2.4 js -->
-        <script src="{% static 'custom/js/jquery/jquery-2.2.4.min.js' %}"></script>
-        <!-- Popper js -->
-        <script src="{% static 'custom/js/bootstrap/popper.min.js' %}"></script>
-
-        <!-- All Plugins JS -->
-        <script src="{% static 'custom/js/others/plugins.js' %}"></script>
-        <!-- Active JS -->
-        <script src="{% static 'custom/js/active.js' %}"></script>
-
-    </body>
-
-</html>
+{% endblock %}
