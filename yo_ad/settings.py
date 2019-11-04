@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'yo',
 )
 
+AUTH_USER_MODEL = 'yo.User'
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +58,7 @@ ROOT_URLCONF = 'yo_ad.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import AdItem
+from yo.models.aditem import AdItem
 from django import forms
 from yo.forms.yo_form import AdForm, UserRegistrationForm
 
@@ -8,7 +8,7 @@ from django.shortcuts import render #reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from django.core.mail import send_mail
 
@@ -17,7 +17,7 @@ from django.core.mail import send_mail
 
 
 def index(request):
-    all_items = AdItem.objects.filter(approved=True, available=True)
+    all_items = AdItem.objects.filter(approved=True)
     my_range = range(0, len(all_items), 3)
     #print(my_range)
     items = []
@@ -30,6 +30,7 @@ def index(request):
     #import pdb; pdb.set_trace()
     return render(request, 'yo/index.html', {'items': items})
 
+@login_required(login_url='/login/')
 def create_ad(request):
     item_form = AdForm()
     return render(request, 'yo/create.html', {'form': item_form})
@@ -58,8 +59,11 @@ def save(request):
 
         return HttpResponseRedirect('/yo/')
     else:
+
         return render(request, 'yo/create.html', {'form': item_form})
 
+
+@login_required(login_url='/login/')
 def approve(request):
     all_items = AdItem.objects.all()
     my_range = range(0, len(all_items), 3)
@@ -73,9 +77,11 @@ def approve(request):
     # import pdb; pdb.set_trace()
     return render(request, 'yo/to_be_approved.html', {'items': items})
 
+
 def pending_item_detail(request,item_id):
     item = AdItem.objects.get(pk=item_id)
     return render(request, 'yo/pending_item_detail.html', {'item': item})
+
 
 def mark_as_approved(request, item_id):
     item = AdItem.objects.get(pk=item_id)
@@ -84,12 +90,14 @@ def mark_as_approved(request, item_id):
     #return HttpResponseRedirect('/item_detail/')
     return render(request, 'yo/pending_item_detail.html', {'item': item})
 
+
 def mark_as_approved_rescinded(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.approved = False
     item.save()
     #return HttpResponseRedirect('/item_detail/')
     return render(request, 'yo/pending_item_detail.html', {'item': item})
+
 
 def item_detail(request, item_id):
     item = AdItem.objects.get(pk=item_id)
@@ -113,6 +121,7 @@ def edit(request, item_id):
               }
     item_form = AdForm(initial=params)
     return render(request, 'yo/edit.html', {'item': item, 'form': item_form})
+
 
 def update(request, item_id):
     item = AdItem.objects.get(pk=item_id)
@@ -153,12 +162,14 @@ def mark_as_unavailable(request, item_id):
     return render(request, 'yo/item_detail.html', {'item': item})
 
 
+@login_required(login_url='/login/')
 def delete(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.delete()
     return HttpResponseRedirect('/yo/')
 
 
+@login_required(login_url='/login/')
 def delete_all(self):
     AdItem.objects.all().delete()
     return HttpResponseRedirect('/yo/')
@@ -184,6 +195,7 @@ def delete_all(self):
 #         form = UserRegistrationForm()
 #     return render(request, 'yo/signup.html', {'form': form})
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -203,6 +215,7 @@ def register(request):
     else:
         form = UserRegistrationForm()
         return render(request, 'yo/signup.html', {'form': form})
+
 
 def send_mail():
     #import pdb; pdb.set_trace()

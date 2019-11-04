@@ -7,6 +7,10 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from yo import views
 
+from django.contrib.auth.decorators import login_required
+
+#from yo.views import UserView
+
 
 
 
@@ -36,6 +40,7 @@ urlpatterns = [
     url(r'^delete_all/$', delete_all),
     url(r'^login/$', auth_views.login, {'template_name': 'yo/login.html'}),
     url(r'^logout/$', auth_views.logout, {'template_name': 'yo/logout.html'}),
+   # url('profile/',  login_required(UserView.as_view()), name='profile'),
     url(r'^register/', register)
     #url(r'^se/$', views.send_mail),
 
