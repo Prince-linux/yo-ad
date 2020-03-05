@@ -26,8 +26,8 @@ def registration(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
-    # if request.user.is_authenticated:
-    #     return redirect('ad-view')
+    if request.user.is_authenticated():
+        return redirect('main-view')
 
     if request.method == 'POST':
 
@@ -101,8 +101,8 @@ def sign_in(request):
     :param request: The WSGIRequest object for the current session
     :return HttpResponse:
     """
-    # if request.user.is_authenticated:
-    #     return redirect('main-view')
+    if request.user.is_authenticated():
+        return redirect('main-view')
 
     if request.method == "POST":
         # Get the login form with the data bound to it
