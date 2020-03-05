@@ -1,3 +1,4 @@
+
 from django.db import models
 
 
@@ -44,11 +45,11 @@ class AdItem(models.Model):
     publisher = models.TextField()
     date_published = models.DateTimeField()
     description_of_item = models.TextField()
-    price = models.CharField(max_length=1)
-    category_of_item = models.CharField(max_length=1, choices=CATEGORY)
-    brand_name_of_item = models.CharField(max_length=1, choices=BRAND_NAME)
-    location = models.CharField(max_length=1, choices=LOCATION)
-    contact = models.CharField(max_length=1)
+    price = models.CharField(max_length=50)
+    category_of_item = models.CharField(max_length=50, choices=CATEGORY)
+    brand_name_of_item = models.CharField(max_length=50, choices=BRAND_NAME)
+    location = models.CharField(max_length=50, choices=LOCATION)
+    contact = models.CharField(max_length=30)
     available = models.BooleanField()
     approved = models.BooleanField()
     item_image = models.ImageField(upload_to='yo/images/')

@@ -96,26 +96,26 @@
       <div class="sidebar-heading">
         Addons
       </div>
-
+      {% if not user.is_authenticated %}
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item active">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
+          <span>Login/SignUp</span>
         </a>
         <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+
             <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="/login/">Login</a>
-            <a class="collapse-item" href="/register/">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+            <a class="collapse-item" href="{% url 'users:login' %}">Login</a>
+            <a class="collapse-item" href="{% url 'users:registration' %}">SignUp</a>
+            <a class="collapse-item" href="{%url 'password_reset' %}">Forgot Password</a>
             <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item active" href="blank.html">Blank Page</a>
+
           </div>
         </div>
       </li>
+      {% endif %}
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
@@ -132,11 +132,13 @@
       </li>
 
       <!-- Nav Item - Tables -->
+      {% if user.is_authenticated and user.user_type == "ADMIN" %}
       <li class="nav-item">
         <a class="nav-link" href="/approve/">
           <i class="fas fa-fw fa-spinner"></i>
           <span>Pending Ads</span></a>
       </li>
+      {% endif %}
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -196,6 +198,10 @@
                   </div>
                 </form>
               </div>
+            </li>
+
+            <li class="nav-item dropdown no-arrow mt-auto mb-auto mr-25">
+              <a href="/create/" class="btn btn-info rounded " role="button" aria-pressed="true"><i class="fas fa-ad mr-1 "></i>Create Ad</a>
             </li>
 
             <!-- Nav Item - Alerts -->
@@ -344,14 +350,21 @@
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800">Welcome!</h1>
 
-          <div>
-            <br>
-            <a href="/create/" class="btn btn-info btn-sm active" role="button" aria-pressed="true">Create an Ad</a>
-            <br>
-          </div><br>
+<!--          <div>-->
+<!--            <br>-->
+<!--&lt;!&ndash;            <a href="/create/" class="btn btn-info btn-sm active" role="button" aria-pressed="true">Create an Ad</a>&ndash;&gt;-->
+<!--            <br>-->
+<!--          </div><br>-->
 
-
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
           {% block content %}
+
 
           {% endblock %}
 
@@ -395,7 +408,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/logout/">Logout</a>
+          <a class="btn btn-primary" href="{% url 'users:logout' %}">Logout</a>
         </div>
       </div>
     </div>
@@ -416,3 +429,5 @@
 </body>
 
 </html>
+
+

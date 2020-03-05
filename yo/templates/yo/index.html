@@ -11,23 +11,6 @@
 
 {% block content %}
 
-
-    <!--        <nav>-->
-<!--            <a href="#" class="hide-desktop">-->
-<!--                <img src="{% static 'custom/images/menu.svg' %}" width="20" height="20" alt="toggle menu" class="menu" id="menu">-->
-<!--            </a>-->
-<!--            <ul class="show-desktop hide-mobile" id="nav">-->
-<!--                <li id="exit" class="exit-btn hide-desktop"><img src="{% static 'custom/images/exit-menu.svg' %}" width="20" height="20" alt="exit menu"></li>-->
-<!--                <li><a href="/yo/">Home</a></li>-->
-<!--                <li><a href="#">About Us</a></li>-->
-<!--                <li><a href="#">Categories</a></li>-->
-<!--                <li><a href="#">Services</a></li>-->
-<!--                <li><a href="#">Contact Us</a></li>-->
-<!--                <li><a href="#">Location</a></li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-
-
 {% if items   %}
 
     <div class="wrapper">
@@ -51,7 +34,7 @@
                             </div>
                             <div class="media-right text-right d-none d-md-block">
                                 <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1">{{item.location}}</i></p>
-                                <span class="text-fade"><i class="fa fa-money pr-1"></i> GHS {{item.price}}</span>
+                                <span class="text-fade"><i class="fa fa-money pr-1"></i> &#8373;{{item.price}}</span>
                             </div>
                         </div>
                         <footer class="card-footer flexbox align-items-center">
@@ -68,59 +51,10 @@
                     </div>
                 </div>
 
-
-<!--            &lt;!&ndash; Category Card &ndash;&gt;-->
-<!--            <div class="col-md-4">-->
-<!--                <div class="card rounded">-->
-<!--                    <div class="card-image">-->
-<!--                        <span class="card-notify-badge">Low KMS</span>-->
-<!--                        <img class="img-fluid" src="{{item.item_image.url}}" alt="Alternate Text" />-->
-<!--                    </div>-->
-<!--                    <div class="card-image-overlay m-auto">-->
-<!--                        <span class="card-detail-badge">{{item.location}}</span>-->
-<!--                        <span class="card-detail-badge">GHS {{item.price}}</span>-->
-<!--                        <span class="card-detail-badge">{{item.date_published|date:"SHORT_DATE_FORMAT"}}</span>-->
-<!--                    </div>-->
-<!--                    <div class="card-body text-center">-->
-<!--                        <div class="ad-title m-auto">-->
-<!--                            <h5>{{item.name_of_item}}</h5>-->
-<!--                        </div>-->
-<!--                        <a class="ad-btn" href="/item_detail/{{item.id}}/">View</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             {% endfor %}
-
 
         </div>
         {% endfor %}
-
-<!--        {% for row in items %}-->
-<!--            <div class="row">-->
-<!--                {% for item in row%}-->
-
-<!--                    <div class="col-3">-->
-
-<!--                        <div class="card-deck"style="text-align: center">-->
-<!--                            <div class="card">-->
-<!--                                <img src="{{item.item_image.url}}" class="card-img-top" alt="ad_item_image" width="120" height="250">-->
-<!--                                <div class="card-body">-->
-<!--                                    <h5 class="card-title">{{ item.name_of_item }}</h5>-->
-<!--                                    <p class="card-title">{{ item.price}}</p>-->
-<!--                                    <p class="card-title">{{ item.location}}</p>-->
-<!--                                    <p class="card-title">{{ item.publisher}}</p>-->
-<!--                                    <a href="/item_detail/{{item.id}}/" class="btn btn-outline-primary">Click to view item</a>-->
-<!--                                </div>-->
-<!--                                <div class="card-footer">-->
-<!--                                    <small class="text-muted">{{ item.date_published }}</small>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-<!--                {% endfor %}-->
-<!--            </div><br/>-->
-<!--        {% endfor %}-->
     </div>
 
 

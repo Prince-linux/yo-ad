@@ -43,48 +43,52 @@ LOCATION = (
 
 
 class AdForm(forms.Form):
-    name_of_item = forms.CharField(max_length=20)
-    publisher = forms.CharField(max_length=20)
-    date_published = forms.DateTimeField()
-    description_of_item = forms.CharField(max_length=120)
-    price = forms.CharField(max_length=20)
+    name_of_item = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput({'class': 'form-control'}),
+                                   )
+    publisher = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput({'class': 'form-control'}),
+                                )
+    date_published = forms.DateTimeField(
+        widget=forms.TextInput({'class': 'form-control'}),
+    )
+    description_of_item = forms.CharField(
+        max_length=120,
+        widget=forms.TextInput({'class': 'form-control'}),
+    )
+    price = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput({'class': 'form-control'}),
+    )
     category_of_item = forms.ChoiceField(
         required=False,
         label='category',
-        widget=forms.Select,
+        widget=forms.Select({'class': 'form-control'}),
         choices=CATEGORY,
     )
     brand_name_of_item = forms.ChoiceField(
         required=False,
         label='brand',
-        widget=forms.Select,
+        widget=forms.Select({'class': 'form-control'}),
         choices=BRAND_NAME,
     )
     location = forms.ChoiceField(
         required=False,
         label='location',
-        widget=forms.Select,
+        widget=forms.Select({'class': 'form-control'}),
         choices=LOCATION,
     )
-    contact = forms.CharField(max_length=20)
+    contact = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput({'class': 'form-control'}),
+    )
     available = forms.BooleanField(required=False,  initial=False, label='Available')
     approved = forms.BooleanField(required=False, initial=False, label='Approved')
-    item_image = forms.ImageField(required=False, initial=False, label='Item_image')
-
-class UserRegistrationForm(forms.Form):
-    username = forms.CharField(
-        required=True,
-        label='Username',
-        max_length=32
-    )
-    email = forms.CharField(
-        required=True,
-        label='Email',
-        max_length=32,
-    )
-    password = forms.CharField(
-        required=True,
-        label='Password',
-        max_length=32,
-        widget=forms.PasswordInput()
+    item_image = forms.ImageField(
+        required=False,
+        initial=False,
+        label='Item_image',
+        widget=forms.FileInput({'class': 'custom-file-input form-control'}),
     )

@@ -1,19 +1,17 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from yo.models.aditem import AdItem
 from django import forms
-from yo.forms.yo_form import AdForm, UserRegistrationForm
-
-from django.shortcuts import render #reverse
-from django.contrib import messages
+from yo.forms.yo_form import AdForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import permission_required, login_required
 
 from django.core.mail import send_mail
-
-
-
 
 
 def index(request):
@@ -27,45 +25,51 @@ def index(request):
         items.append(sub_array)
 
     #print(items)
-    #import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     return render(request, 'yo/index.html', {'items': items})
 
-@login_required(login_url='/login/')
+
+
+@login_required(login_url='users:login')
 def create_ad(request):
+    #import pdb; pdb.set_trace()
     item_form = AdForm()
     return render(request, 'yo/create.html', {'form': item_form})
 
 def save(request):
-    #import pdb; pdb.set_trace()
-    item_form = AdForm(request.POST, request.FILES)
 
-    if item_form.is_valid():
-        new_item = AdItem()
-        new_item.name_of_item = item_form.cleaned_data['name_of_item']
-        new_item.publisher = item_form.cleaned_data['publisher']
-        new_item.date_published = item_form.cleaned_data['date_published']
-        new_item.description_of_item = item_form.cleaned_data['description_of_item']
-        new_item.price = item_form.cleaned_data['price']
-        new_item.category_of_item = item_form.cleaned_data['category_of_item']
-        new_item.brand_name_of_item = item_form.cleaned_data['brand_name_of_item']
-        new_item.location = item_form.cleaned_data['location']
-        new_item.contact = item_form.cleaned_data['contact']
-        new_item.available = item_form.cleaned_data['available']
-        new_item.approved = item_form.cleaned_data['approved']
-        new_item.item_image = item_form.cleaned_data['item_image']
-        new_item.save()
+    if request.method == "POST":
+        item_form = AdForm(request.POST, request.FILES)
+        # import pdb;
+        # pdb.set_trace()
+        if item_form.is_valid():
+            new_item = AdItem()
+            new_item.name_of_item = item_form.cleaned_data['name_of_item']
+            new_item.publisher = item_form.cleaned_data['publisher']
+            new_item.date_published = item_form.cleaned_data['date_published']
+            new_item.description_of_item = item_form.cleaned_data['description_of_item']
+            new_item.price = item_form.cleaned_data['price']
+            new_item.category_of_item = item_form.cleaned_data['category_of_item']
+            new_item.brand_name_of_item = item_form.cleaned_data['brand_name_of_item']
+            new_item.location = item_form.cleaned_data['location']
+            new_item.contact = item_form.cleaned_data['contact']
+            new_item.available = item_form.cleaned_data['available']
+            new_item.approved = item_form.cleaned_data['approved']
+            new_item.item_image = item_form.cleaned_data['item_image']
+            new_item.save()
 
-        send_mail()
+            send_mail()
 
-        return HttpResponseRedirect('/yo/')
+            return HttpResponseRedirect('/yo/')
+
     else:
+        item_form = AdForm()
+    return render(request, 'yo/create.html', {'form': item_form})
 
-        return render(request, 'yo/create.html', {'form': item_form})
 
-
-@login_required(login_url='/login/')
+@login_required(login_url='users:login')
 def approve(request):
-    all_items = AdItem.objects.all()
+    all_items = AdItem.objects.filter(approved=False)
     my_range = range(0, len(all_items), 3)
     # print(my_range)
     items = []
@@ -145,7 +149,7 @@ def update(request, item_id):
     else:
         return render(request, 'yo/edit.html', {'item':item, 'form': item_form})
 
-
+@login_required(login_url='users:login')
 def mark_as_available(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.available = True
@@ -153,7 +157,7 @@ def mark_as_available(request, item_id):
     #return HttpResponseRedirect('/item_detail/')
     return render(request, 'yo/item_detail.html', {'item': item})
 
-
+@login_required(login_url='users:login')
 def mark_as_unavailable(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.available = False
@@ -162,59 +166,18 @@ def mark_as_unavailable(request, item_id):
     return render(request, 'yo/item_detail.html', {'item': item})
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='users:login')
 def delete(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.delete()
     return HttpResponseRedirect('/yo/')
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='users:login')
 def delete_all(self):
     AdItem.objects.all().delete()
     return HttpResponseRedirect('/yo/')
 
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserRegistrationForm(request.POST)
-#         if form.is_valid():
-#             userObj = form.cleaned_data
-#             username = userObj['username']
-#             email = userObj['email']
-#             password = userObj['password']
-#             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-#                 User.objects.create_user(username, email, password)
-#                 user = authenticate(username=username, password = password)
-#                 login(request, user)
-#                 return HttpResponseRedirect('/yo/')
-#             else:
-#                 print(form.errors)
-#             # else:
-#             #     raise forms.ValidationError('Looks like a username with that email or password already exists')
-#     else:
-#         form = UserRegistrationForm()
-#     return render(request, 'yo/signup.html', {'form': form})
-
-
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            userObj = form.cleaned_data
-            username = userObj['username']
-            email = userObj['email']
-            password = userObj['password']
-            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                User.objects.create_user(username, email, password)
-                user = authenticate(username=username, password=password)
-                login(request, user)
-                return HttpResponseRedirect('/yo/')
-        else:
-            raise forms.ValidationError('Looks like a username with that email or password already exists')
-
-    else:
-        form = UserRegistrationForm()
-        return render(request, 'yo/signup.html', {'form': form})
 
 
 def send_mail():
@@ -229,14 +192,17 @@ def send_mail():
     msg['To'] = 'regioths@gmail.com'
     msg['Subject'] = 'New Ad'
 
-    body = 'This is a new Ad waiting for your approval'
+    body = 'This is a new Ad awaiting your approval'
     msg.attach(MIMEText(body, 'plain'))
 
     text = msg.as_string()
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login('peedorNetwork@gmail.com', 'mayais123_pee')
-    server.sendmail('peedorNetwork@gmail.com', 'regioths@gmail.com', text)
+    try:
+        server.login('peedorNetwork@gmail.com', 'mayais123_pee')
+        server.sendmail('peedorNetwork@gmail.com', 'regioths@gmail.com', text)
+    except:
+        pass
     server.quit()
 
 
