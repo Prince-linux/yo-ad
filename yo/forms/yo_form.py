@@ -52,7 +52,7 @@ class AdForm(forms.Form):
         widget=forms.TextInput({'class': 'form-control'}),
                                 )
     date_published = forms.DateTimeField(
-        widget=forms.TextInput({'class': 'form-control'}),
+        widget=forms.TextInput({'class': 'form-control datetimepicker'}),
     )
     description_of_item = forms.CharField(
         max_length=120,
@@ -90,5 +90,5 @@ class AdForm(forms.Form):
         required=False,
         initial=False,
         label='Item_image',
-        widget=forms.FileInput({'class': 'custom-file-input form-control'}),
+        widget=forms.FileInput({'class': 'form-control'}),
     )

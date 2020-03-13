@@ -12,20 +12,7 @@ from users.utils import validate_data
 
 
 def registration(request):
-    """Register a new account
-    Retrieves the registration information submitted by the user if
-    the form is bound and valid. The next step is to call the
-    ` validate_data()` function to ensure that the information provided
-    has passed the necessary requirements to be used. Otherwise the user
-    is presented with an error message and the form to try again.
-    If the data is valid, we create a new user object with the data and
-    save it in the database. The user is then automatically logged in
-    and redirected to their dashboard.
-    In all instances where the data is not valid, the user is presented
-    with the form and the appropriate messages to try again.
-    :param request: The WSGIRequest object for the current session
-    :return HttpResponse:
-    """
+
     if request.user.is_authenticated():
         return redirect('main-view')
 

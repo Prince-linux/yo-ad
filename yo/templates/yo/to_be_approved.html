@@ -43,7 +43,14 @@
                     <div class="card b-1 hover-shadow mb-20">
                         <div class="media card-body">
                             <div class="media-left pr-12">
-                                <img class="avatar avatar-xl no-radius" src="{{item.item_image.url}}" alt="...">
+                                <img class="avatar avatar-xl no-radius" src=
+                                        "
+                                        {% if item.item_image %}
+                                            {{item.item_image.url}}
+                                        {% else %}
+                                            {% static 'image/no_image.png' %}
+                                        {% endif %}
+                                        " alt="...">
                             </div>
                             <div class="media-body">
                                 <div class="mb-2">
@@ -71,58 +78,12 @@
                 </div>
 
 
-<!--            &lt;!&ndash; Category Card &ndash;&gt;-->
-<!--            <div class="col-md-4">-->
-<!--                <div class="card rounded">-->
-<!--                    <div class="card-image">-->
-<!--                        <span class="card-notify-badge">Low KMS</span>-->
-<!--                        <img class="img-fluid" src="{{item.item_image.url}}" alt="Alternate Text" />-->
-<!--                    </div>-->
-<!--                    <div class="card-image-overlay m-auto">-->
-<!--                        <span class="card-detail-badge">{{item.location}}</span>-->
-<!--                        <span class="card-detail-badge">GHS {{item.price}}</span>-->
-<!--                        <span class="card-detail-badge">{{item.date_published|date:"SHORT_DATE_FORMAT"}}</span>-->
-<!--                    </div>-->
-<!--                    <div class="card-body text-center">-->
-<!--                        <div class="ad-title m-auto">-->
-<!--                            <h5>{{item.name_of_item}}</h5>-->
-<!--                        </div>-->
-<!--                        <a class="ad-btn" href="/item_detail/{{item.id}}/">View</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             {% endfor %}
 
 
         </div>
         {% endfor %}
 
-<!--        {% for row in items %}-->
-<!--            <div class="row">-->
-<!--                {% for item in row%}-->
-
-<!--                    <div class="col-3">-->
-
-<!--                        <div class="card-deck"style="text-align: center">-->
-<!--                            <div class="card">-->
-<!--                                <img src="{{item.item_image.url}}" class="card-img-top" alt="ad_item_image" width="120" height="250">-->
-<!--                                <div class="card-body">-->
-<!--                                    <h5 class="card-title">{{ item.name_of_item }}</h5>-->
-<!--                                    <p class="card-title">{{ item.price}}</p>-->
-<!--                                    <p class="card-title">{{ item.location}}</p>-->
-<!--                                    <p class="card-title">{{ item.publisher}}</p>-->
-<!--                                    <a href="/item_detail/{{item.id}}/" class="btn btn-outline-primary">Click to view item</a>-->
-<!--                                </div>-->
-<!--                                <div class="card-footer">-->
-<!--                                    <small class="text-muted">{{ item.date_published }}</small>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-<!--                {% endfor %}-->
-<!--            </div><br/>-->
-<!--        {% endfor %}-->
     </div>
 
 
