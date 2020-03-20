@@ -1,0 +1,42 @@
+body{
+  padding-top: 50px;
+}
+
+.navbar{
+  padding: 0;
+  margin-bottom: 50px;
+}
+
+.nav.navbar-nav .nav-link{
+  padding: .85rem 1rem;
+  color: #eee;
+}
+
+.nav.navbar-nav .active .nav-link{
+  color: #fff;
+  background-color: #009dff;
+  transition: all 0.4s ease-in;
+}
+
+.nav.navbar-nav .nav-link:hover{
+  background-color: #009dff;
+  color: #fff;
+}
+
+.navbar-brand{
+  padding: .65rem;
+}
+
+.dropdown-menu .nav-link{
+  color: #000!important;
+}
+
+.dropdown-menu .nav-link:hover{
+  color: #fff!important;
+}
+
+.dropdown-menu .nav-link.disabled{
+  color: grey!important;
+  pointer-events: none;
+}
+

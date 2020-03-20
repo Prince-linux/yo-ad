@@ -1,0 +1,18 @@
+div#main h2:first-child{
+    padding: 25px;
+    color: #fff;
+    font-weight: bolder;
+    margin-bottom: 1.2em;
+    border-radius: .4em;
+}
+
+div#main div {
+    min-height: 30rem;
+    color: #fff;
+    border-radius: .8em;
+    padding: .8em 1.2em;
+}
+
+div#main div p{
+    font-size: 1.1em;
+}

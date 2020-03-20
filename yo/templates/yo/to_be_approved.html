@@ -1,5 +1,3 @@
-
-
 {% extends "base.html" %}
 {% load static %}
 
@@ -12,23 +10,6 @@
 {% endblock %}
 
 {% block content %}
-
-
-    <!--        <nav>-->
-<!--            <a href="#" class="hide-desktop">-->
-<!--                <img src="{% static 'custom/images/menu.svg' %}" width="20" height="20" alt="toggle menu" class="menu" id="menu">-->
-<!--            </a>-->
-<!--            <ul class="show-desktop hide-mobile" id="nav">-->
-<!--                <li id="exit" class="exit-btn hide-desktop"><img src="{% static 'custom/images/exit-menu.svg' %}" width="20" height="20" alt="exit menu"></li>-->
-<!--                <li><a href="/yo/">Home</a></li>-->
-<!--                <li><a href="#">About Us</a></li>-->
-<!--                <li><a href="#">Categories</a></li>-->
-<!--                <li><a href="#">Services</a></li>-->
-<!--                <li><a href="#">Contact Us</a></li>-->
-<!--                <li><a href="#">Location</a></li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-
 
 {% if items   %}
 
@@ -43,24 +24,24 @@
                     <div class="card b-1 hover-shadow mb-20">
                         <div class="media card-body">
                             <div class="media-left pr-12">
-                                <img class="avatar avatar-xl no-radius" src=
-                                        "
-                                        {% if item.item_image %}
-                                            {{item.item_image.url}}
-                                        {% else %}
-                                            {% static 'image/no_image.png' %}
-                                        {% endif %}
-                                        " alt="...">
+                                <img class="avatar avatar-xl no-radius" src="
+                                                                             {% if item.item_image %}
+                                                                                {{item.item_image.url}}
+                                                                             {% else %}
+                                                                                {% static 'image/no_image.png' %}
+                                                                             {% endif %}
+
+                                                                            " alt="...">
                             </div>
                             <div class="media-body">
                                 <div class="mb-2">
                                     <span class="fs-20 pr-16">{{item.name_of_item}}</span>
                                 </div>
-                                <small class="fs-16 fw-300 ls-1">{{ item.publisher}}</small>
+                                <small class="fs-16 fw-300 ls-1">{{item.publisher}}</small>
                             </div>
                             <div class="media-right text-right d-none d-md-block">
                                 <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1">{{item.location}}</i></p>
-                                <span class="text-fade"><i class="fa fa-money pr-1"></i> GHS {{item.price}}</span>
+                                <span class="text-fade"><i class="fa fa-money pr-1"></i> &#8373;{{item.price}}</span>
                             </div>
                         </div>
                         <footer class="card-footer flexbox align-items-center">
@@ -69,30 +50,28 @@
                                 <span>{{item.date_published|date:"SHORT_DATE_FORMAT"}}</span>
                             </div>
                             <div class="card-hover-show">
-                                <a class="btn btn-xs fs-10 btn-bold btn-info" href="/pending_item_detail/{{item.id}}">View</a>
-                                <a class="btn btn-xs fs-10 btn-bold btn-primary" href="#" data-toggle="modal" data-target="#modal-contact">Contact</a>
-                                <a class="btn btn-xs fs-10 btn-bold btn-warning" href="#">Delete</a>
+                                 <a class="btn btn-xs fs-10 btn-bold btn-info" href="/pending_item_detail/{{item.id}}">View</a>
+<!--                                <a class="btn btn-xs fs-10 btn-bold btn-primary" href="#" data-toggle="modal" data-target="#modal-contact">Contact</a>-->
+<!--                                <a class="btn btn-xs fs-10 btn-bold btn-warning" href="#">Delete</a>-->
                             </div>
                         </footer>
                     </div>
                 </div>
 
-
             {% endfor %}
-
 
         </div>
         {% endfor %}
-
     </div>
 
 
 
 {% else %}
-    <p>There are no pending ads</p>
+    <p>There are no ads</p>
 {% endif %}
 
 {% endblock %}
+
 
 
 

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from yo.models.aditem import AdItem
 from django import forms
-from yo.forms.yo_form import AdForm
+from yo.forms.yo_form import AdForm # NewForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -30,18 +30,76 @@ def index(request):
 
 
 
+# @login_required(login_url='users:login')
+# def create_ad(request):
+    #declared here pls
+    #import pdb; pdb.set_trace()
+    # f = NewForm()
+
+    #
+    # return render(request, 'yo/create.html', {'form': f})
+#
+# def save(request):
+#     #import pdb; pdb.set_trace()
+#     if request.method == "POST":
+#         f = NewForm(request.POST)
+     # focus here - it is the reeeving end of the flow
+     #
+
+     # In the receiving end of the form that is posted you can do this
+     #
+     #    data = {'date_published': '2020-03-23 01:01:44'}
+     #
+     #    import  pdb; pdb.set_trace()
+     #    f = NewForm(data)
+     #    f.is_valid()
+    # Just as was done in the form of the tutorial
+    # if new_form.is_valid():
+    #     new_item = AdItem()
+    #     new_item.date_published = item_form.cleaned_data['date_published']
+    #     new_item.save()
+    #     return HttpResponseRedirect('/yo/')
+    # else:
+    #     new_form = NewForm()
+    #     return render(request, 'yo/create.html', {'form': new_form})
+    #     # to see if the form is valid. You will continue to tweek data till you find out what works wel
+
+     # Later you will investigate why request.POST is sending wrongly that is making the validation to fail
+
+    # if request.method == "POST":
+    #     item_form = NewForm(request.POST)
+    #     # where is your post data being passed to the form ?
+    #     # where is item_form deeclared ?
+    #     # import pdb; pdb.set
+    #     if item_form.is_valid():
+    #         new_item = AdItem()
+    #         new_item.date_published = item_form.cleaned_data['date_published']
+    #         new_item.save()
+    #         return HttpResponseRedirect('/yo/')
+    #     else:
+    #         item_form = NewForm()
+    #     return render(request, 'yo/create.html', {'form': item_form})
+
+
 @login_required(login_url='users:login')
 def create_ad(request):
-    #import pdb; pdb.set_trace()
+    #declared here pls
+    # import pdb; pdb.set_trace()
     item_form = AdForm()
+
+
     return render(request, 'yo/create.html', {'form': item_form})
+
 
 def save(request):
 
     if request.method == "POST":
+        print(request.POST)
         item_form = AdForm(request.POST, request.FILES)
+
         # import pdb;
         # pdb.set_trace()
+
         if item_form.is_valid():
             new_item = AdItem()
             new_item.name_of_item = item_form.cleaned_data['name_of_item']

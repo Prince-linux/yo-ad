@@ -36,7 +36,7 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Price (GHS)</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Price &#8373;</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800">{{item.price}}</div>
                     </div>
                     <div class="col-auto">
@@ -94,12 +94,12 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img src="
-                                     {% if item.item_image %}
-                                        {{item.item_image.url}}
-                                     {% else %}
-                                        {% static 'image/no_image.png' %}
-                                     {% endif %}
-                                     "
+                            {% if item.item_image %}
+                                {{item.item_image.url}}
+                            {% else %}
+                                {% static 'image/no_image.png' %}
+                            {% endif %}
+                            "
                                  class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
@@ -146,10 +146,18 @@
                         </a>
                     </div>
                 {% endif %}
-
             </div>
+
+
+
         </div>
 
     </div>
 {% endif %}
 {% endblock %}
+
+
+
+
+
+
