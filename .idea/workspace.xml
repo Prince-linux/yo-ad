@@ -3,7 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7df512ba-6e59-450c-81d9-22dbec9841db" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yo/templates/yo/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/yo/templates/yo/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/forms/yo_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/yo/forms/yo_form.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/models/aditem.py" beforeDir="false" afterPath="$PROJECT_DIR$/yo/models/aditem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/yo/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/templates/yo/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/yo/templates/yo/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/templates/yo/item_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/yo/templates/yo/item_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/yo/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -111,6 +116,15 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1584457363619" />
+    <state x="72" y="154" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586217572457">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="72" y="154" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900/-1920.-180.1920.1080@0.0.1440.900" timestamp="1586217572457" />
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1588606865289">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-1920.-180.1920.1080@0.0.1440.900" timestamp="1588606865289" />
+    <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1587733752778" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1582631052181">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

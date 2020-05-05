@@ -3,9 +3,9 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from yo.models.aditem import AdItem
+from yo.models.aditem import AdItem, Comment
 from django import forms
-from yo.forms.yo_form import AdForm # NewForm
+from yo.forms.yo_form import AdForm, CommentForm # NewForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -27,59 +27,6 @@ def index(request):
     #print(items)
     # import pdb; pdb.set_trace()
     return render(request, 'yo/index.html', {'items': items})
-
-
-
-# @login_required(login_url='users:login')
-# def create_ad(request):
-    #declared here pls
-    #import pdb; pdb.set_trace()
-    # f = NewForm()
-
-    #
-    # return render(request, 'yo/create.html', {'form': f})
-#
-# def save(request):
-#     #import pdb; pdb.set_trace()
-#     if request.method == "POST":
-#         f = NewForm(request.POST)
-     # focus here - it is the reeeving end of the flow
-     #
-
-     # In the receiving end of the form that is posted you can do this
-     #
-     #    data = {'date_published': '2020-03-23 01:01:44'}
-     #
-     #    import  pdb; pdb.set_trace()
-     #    f = NewForm(data)
-     #    f.is_valid()
-    # Just as was done in the form of the tutorial
-    # if new_form.is_valid():
-    #     new_item = AdItem()
-    #     new_item.date_published = item_form.cleaned_data['date_published']
-    #     new_item.save()
-    #     return HttpResponseRedirect('/yo/')
-    # else:
-    #     new_form = NewForm()
-    #     return render(request, 'yo/create.html', {'form': new_form})
-    #     # to see if the form is valid. You will continue to tweek data till you find out what works wel
-
-     # Later you will investigate why request.POST is sending wrongly that is making the validation to fail
-
-    # if request.method == "POST":
-    #     item_form = NewForm(request.POST)
-    #     # where is your post data being passed to the form ?
-    #     # where is item_form deeclared ?
-    #     # import pdb; pdb.set
-    #     if item_form.is_valid():
-    #         new_item = AdItem()
-    #         new_item.date_published = item_form.cleaned_data['date_published']
-    #         new_item.save()
-    #         return HttpResponseRedirect('/yo/')
-    #     else:
-    #         item_form = NewForm()
-    #     return render(request, 'yo/create.html', {'form': item_form})
-
 
 @login_required(login_url='users:login')
 def create_ad(request):
@@ -163,9 +110,23 @@ def mark_as_approved_rescinded(request, item_id):
 
 def item_detail(request, item_id):
     item = AdItem.objects.get(pk=item_id)
-    return render(request, 'yo/item_detail.html', {'item': item})
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(
+                author=form.cleaned_data["author"],
+                body=form.cleaned_data["body"],
+                post=item
+            )
+            comment.save()
+    comments = Comment.objects.filter(post=item)
+    return render(request, 'yo/item_detail.html', {'item': item,
+                                                   'comments': comments,
+                                                   "form": form})
 
 
+@login_required(login_url='users:login')
 def edit(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     params = {'name_of_item': item.name_of_item,
