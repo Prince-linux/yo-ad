@@ -58,6 +58,8 @@ class AdForm(forms.Form):
 
     approved = forms.BooleanField(required=False, initial=False, label='Approved')
 
+    promoted = forms.BooleanField(required=False, initial=False, label='Promoted')
+
     item_image = forms.ImageField(
         required=False,
         initial=False,
@@ -77,6 +79,16 @@ class CommentForm(forms.Form):
         attrs={
             "class": "form-control",
             "placeholder": "Leave a comment!"
+        })
+    )
+
+
+class PayPromotionForm(forms.Form):
+    promotional_price = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Enter an amount"
         })
     )
 

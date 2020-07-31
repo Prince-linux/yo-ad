@@ -15,10 +15,20 @@ class AdItem(models.Model):
     contact = models.CharField(max_length=30)
     available = models.BooleanField()
     approved = models.BooleanField()
+    promoted = models.BooleanField()
     item_image = models.ImageField(upload_to='yo/images/')
+
 
 class Comment(models.Model):
     author = models.CharField(max_length=60)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     post = models.ForeignKey('AdItem', on_delete=models.CASCADE)
+
+
+class PayPromotion(models.Model):
+    promotional_price = models.CharField(max_length=10)
+    promotion = models.OneToOneField('AdItem', on_delete=models.CASCADE)
+    #status = ['Promoted', 'Normal']
+
+

@@ -97,7 +97,7 @@
                             {% if item.item_image %}
                                 {{item.item_image.url}}
                             {% else %}
-                                {% static 'image/no_image.png' %}
+                                {% static 'images/no_image.png' %}
                             {% endif %}
                             "
                                  class="d-block w-100" alt="...">
@@ -145,7 +145,7 @@
                         <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
                            aria-pressed="true">edit
                         </a>
-                        <a href="/delete_all/" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Delete_all</a>
+                        <a href="/pay_promotion/{{item.id}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Promote</a>
                     </div>
                 {% else %}
                     Not Available
@@ -161,7 +161,6 @@
                         <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
                            aria-pressed="true">edit
                         </a>
-                        <a href="/delete_all/" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Delete_all</a>
                     </div>
                 {% endif %}
                 <br>

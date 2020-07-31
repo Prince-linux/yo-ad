@@ -3,9 +3,9 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from yo.models.aditem import AdItem, Comment
+from yo.models.aditem import AdItem, Comment, PayPromotion
 from django import forms
-from yo.forms.yo_form import AdForm, CommentForm # NewForm
+from yo.forms.yo_form import AdForm, CommentForm, PayPromotionForm# NewForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -33,8 +33,6 @@ def create_ad(request):
     #declared here pls
     # import pdb; pdb.set_trace()
     item_form = AdForm()
-
-
     return render(request, 'yo/create.html', {'form': item_form})
 
 
@@ -60,6 +58,7 @@ def save(request):
             new_item.contact = item_form.cleaned_data['contact']
             new_item.available = item_form.cleaned_data['available']
             new_item.approved = item_form.cleaned_data['approved']
+            new_item.promoted = item_form.cleaned_data['promoted']
             new_item.item_image = item_form.cleaned_data['item_image']
             new_item.save()
 
@@ -87,33 +86,120 @@ def approve(request):
     return render(request, 'yo/to_be_approved.html', {'items': items})
 
 
-def pending_item_detail(request,item_id):
+@login_required(login_url='users:login')
+def pending_approval_item_detail(request,item_id):
     item = AdItem.objects.get(pk=item_id)
-    return render(request, 'yo/pending_item_detail.html', {'item': item})
+    return render(request, 'yo/pending_approval_item_detail.html', {'item': item})
 
 
+@login_required(login_url='users:login')
 def mark_as_approved(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.approved = True
     item.save()
     #return HttpResponseRedirect('/item_detail/')
-    return render(request, 'yo/pending_item_detail.html', {'item': item})
+    return render(request, 'yo/pending_approval_item_detail.html', {'item': item})
 
 
+@login_required(login_url='users:login')
 def mark_as_approved_rescinded(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.approved = False
     item.save()
     #return HttpResponseRedirect('/item_detail/')
-    return render(request, 'yo/pending_item_detail.html', {'item': item})
+    return render(request, 'yo/pending_approval_item_detail.html', {'item': item})
+
+
+@login_required(login_url='users:login')
+def promotions(request):
+    all_items = AdItem.objects.filter(promoted=False)
+    my_range = range(0, len(all_items), 3)
+    # print(my_range)
+    items = []
+    for i in my_range:
+        sub_array = all_items[i:i + 3]
+        items.append(sub_array)
+
+    # print(items)
+    # import pdb; pdb.set_trace()
+    return render(request, 'yo/to_be_promoted.html', {'items': items})
+
+
+def pay_promotion(request, item_id):
+    item = AdItem.objects.get(pk=item_id)
+    form = PayPromotionForm()
+    return render(request, 'yo/pay_promotion.html', {'form': form, 'item': item})
+
+
+def save_pay_promotion(request, item_id):
+    item = AdItem.objects.get(pk=item_id)
+    if request.method == "POST":
+        form = PayPromotionForm(request.POST)
+        if form.is_valid():
+            new_pay_promotion = PayPromotion()
+            new_pay_promotion.promotional_price = form.cleaned_data['promotional_price']
+            new_pay_promotion.promotion = item
+            new_pay_promotion.save()
+
+        return render(request, 'yo/item_detail.html')
+
+    else:
+        form = PayPromotionForm()
+    return render(request, 'yo/pay_promotion.html', {'form': form, 'item': item})
+
+
+@login_required(login_url='users:login')
+def edit_pay_promotion(request, pay_promotion_id):
+    pay_promotion = PayPromotion.objects.get(pk=pay_promotion_id)
+    params = {'promotional_price': pay_promotion.promotional_price,
+
+              }
+    pay_promotion_form = PayPromotionForm(initial=params)
+    return render(request, 'yo/edit_pay_promotion.html', {'pay_promotion': pay_promotion, 'form': pay_promotion_form})
+
+
+@login_required(login_url='users:login')
+def update_pay_promotion(request, pay_promotion_id):
+    pay_promotion = PayPromotion.objects.get(pk=pay_promotion_id)
+    pay_promotion_form = PayPromotionForm(request.POST)
+    if pay_promotion_form.is_valid():
+        new_pay_promotion = PayPromotion()
+        new_pay_promotion.promotional_price = pay_promotion_form.cleaned_data['promotional_price']
+        new_pay_promotion.save()
+
+        return HttpResponseRedirect('/yo/')
+    else:
+        return render(request, 'yo/edit_pay_promotion.html', {'pay_promotion': pay_promotion, 'form': pay_promotion_form})
+
+
+@login_required(login_url='users:login')
+def pending_promotional_item_detail(request,item_id):
+    item = AdItem.objects.get(pk=item_id)
+    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
+
+
+@login_required(login_url='users:login')
+def mark_as_promoted(request, item_id):
+    item = AdItem.objects.get(pk=item_id)
+    item.promoted = True
+    item.save()
+    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
+
+
+@login_required(login_url='users:login')
+def mark_as_promotion_rescinded(request, item_id):
+    item = AdItem.objects.get(pk=item_id)
+    item.promoted = False
+    item.save()
+    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
 
 
 def item_detail(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     form = CommentForm()
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
             comment = Comment(
                 author=form.cleaned_data["author"],
                 body=form.cleaned_data["body"],
@@ -140,12 +226,13 @@ def edit(request, item_id):
               'contact': item.contact,
               'available': item.available,
               'approved': item.approved,
+              'promoted': item.promoted,
               'item_image': item.item_image
               }
     item_form = AdForm(initial=params)
     return render(request, 'yo/edit.html', {'item': item, 'form': item_form})
 
-
+@login_required(login_url='users:login')
 def update(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item_form = AdForm(request.POST, request.FILES)
@@ -162,6 +249,7 @@ def update(request, item_id):
         item.contact = item_form.cleaned_data['contact']
         item.available = item_form.cleaned_data['available']
         item.approved = item_form.cleaned_data['approved']
+        item.promoted = item_form.cleaned_data['promoted']
         item.item_image = item_form.cleaned_data['item_image']
         item.save()
         return HttpResponseRedirect('/yo/')
