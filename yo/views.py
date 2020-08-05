@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 
 
 def index(request):
-    all_items = AdItem.objects.filter(approved=True)
+    all_items = AdItem.objects.filter(approved=True).order_by('-promoted')
     my_range = range(0, len(all_items), 3)
     #print(my_range)
     items = []
@@ -64,7 +64,7 @@ def save(request):
 
             send_mail()
 
-            return HttpResponseRedirect('/yo/')
+            return HttpResponseRedirect('/')
 
     else:
         item_form = AdForm()
@@ -167,7 +167,7 @@ def update_pay_promotion(request, pay_promotion_id):
         new_pay_promotion.promotional_price = pay_promotion_form.cleaned_data['promotional_price']
         new_pay_promotion.save()
 
-        return HttpResponseRedirect('/yo/')
+        return HttpResponseRedirect('/')
     else:
         return render(request, 'yo/edit_pay_promotion.html', {'pay_promotion': pay_promotion, 'form': pay_promotion_form})
 
@@ -252,7 +252,7 @@ def update(request, item_id):
         item.promoted = item_form.cleaned_data['promoted']
         item.item_image = item_form.cleaned_data['item_image']
         item.save()
-        return HttpResponseRedirect('/yo/')
+        return HttpResponseRedirect('/')
     else:
         return render(request, 'yo/edit.html', {'item':item, 'form': item_form})
 
@@ -277,13 +277,13 @@ def mark_as_unavailable(request, item_id):
 def delete(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     item.delete()
-    return HttpResponseRedirect('/yo/')
+    return HttpResponseRedirect('/')
 
 
 @login_required(login_url='users:login')
 def delete_all(self):
     AdItem.objects.all().delete()
-    return HttpResponseRedirect('/yo/')
+    return HttpResponseRedirect('/')
 
 
 

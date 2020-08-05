@@ -18,7 +18,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('users.urls', namespace="users")),
-    url(r'^yo/$', index, name="main-view"),
+    url(r'', index, name="main-view"),
     url(r'^new/$', save, name="addAd"),
     url(r'^create/$', create_ad, name="ad-view"),
     url(r'^item_detail/(?P<item_id>\d+)/$', item_detail),
