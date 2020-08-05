@@ -145,7 +145,11 @@
                         <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
                            aria-pressed="true">edit
                         </a>
-                        <a href="/pay_promotion/{{item.id}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Promote</a>
+                        {% if item.promoted %}
+                            Promoted
+                        {% else %}
+                            <a href="/pay_promotion/{{item.id}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Promote</a>
+                        {% endif %}
                     </div>
                 {% else %}
                     Not Available
