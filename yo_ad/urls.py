@@ -18,7 +18,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('users.urls', namespace="users")),
-    url(r'', index, name="main-view"),
     url(r'^new/$', save, name="addAd"),
     url(r'^create/$', create_ad, name="ad-view"),
     url(r'^item_detail/(?P<item_id>\d+)/$', item_detail),
@@ -40,6 +39,7 @@ urlpatterns = [
     url(r'^pending_promotional_item_detail/(?P<item_id>\d+)/$', pending_promotional_item_detail),
     url(r'^mark_promotions/(?P<item_id>\d+)/promoted/$', mark_as_promoted),
     url(r'^mark_promotions/(?P<item_id>\d+)/not_promoted/$', mark_as_promotion_rescinded),
+    url(r'', index, name="main-view"),
 
 #
 # # Url for password reset.
