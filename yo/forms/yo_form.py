@@ -33,7 +33,7 @@ class AdForm(forms.Form):
 
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={'class': 'chosen-select'}),
     )
 
     brand_name_of_item = forms.CharField(
