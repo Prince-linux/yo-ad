@@ -1,0 +1,107 @@
+[
+  {
+    "model": "yo.category",
+    "pk": 1,
+    "fields": {
+      "name": "Food"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 2,
+    "fields": {
+      "name": "Clothing and Beauty"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 3,
+    "fields": {
+      "name": "Business & Industry"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 4,
+    "fields": {
+      "name": "Agriculture"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 5,
+    "fields": {
+      "name": "Electronics"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 6,
+    "fields": {
+      "name": "Essentials"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 7,
+    "fields": {
+      "name": "Hobby, Sports & Kids"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 8,
+    "fields": {
+      "name": "Real Estate, Home & Garden"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 9,
+    "fields": {
+      "name": "Jobs in Ghana"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 10,
+    "fields": {
+      "name": "Foreign Jobs"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 11,
+    "fields": {
+      "name": "Other"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 12,
+    "fields": {
+      "name": "Pets & Animals"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 13,
+    "fields": {
+      "name": "Property"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 14,
+    "fields": {
+      "name": "Services"
+    }
+  },
+  {
+    "model": "yo.category",
+    "pk": 15,
+    "fields": {
+      "name": "Vehicles"
+    }
+  }
+]
