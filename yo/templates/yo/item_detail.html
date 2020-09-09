@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block headblock %}
+<style>
+        .btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+        .btn-labeled {padding-top: 0;padding-bottom: 0;}
+        .btn { margin-bottom:10px; }
+        .button { float: right;}
+    </style>
+{% endblock %}
+
 {% block content %}
 
 <div class="card shadow mb-4">
@@ -102,12 +112,12 @@
                             "
                                  class="d-block w-100" alt="...">
                         </div>
-                        <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="..." class="d-block w-100" alt="...">
-                        </div>
+<!--                        <div class="carousel-item">-->
+<!--                            <img src="..." class="d-block w-100" alt="...">-->
+<!--                        </div>-->
+<!--                        <div class="carousel-item">-->
+<!--                            <img src="..." class="d-block w-100" alt="...">-->
+<!--                        </div>-->
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -126,69 +136,90 @@
                     <div class="card-body">
                         <p class="card-text">{{item.name_of_item}}</p>
                         <p class="card-text">{{item.description_of_item}}</p>
+                        {% if item.available %}
+                            Available
+                        <br>
+                        {% if user.is_authenticated %}
+                            <div class="col-1.5">
+                                <a href="/mark/{{item.id}}/unavailable/" class="btn btn-dark btn-sm active" role="button"
+                                   aria-pressed="true">mark as unavailable
+                                </a>
+                                <a href="/delete/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
+                                   aria-pressed="true">delete
+                                </a>
+                                <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
+                                   aria-pressed="true">edit
+                                </a>
+                                {% if item.promoted %}
+                                    Promoted
+                                {% else %}
+                                    <a href="/pay_promotion/{{item.id}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Promote</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% else %}
+                        <br>
+                            Not Available
+                        {% if user.is_authenticated %}
+                            <div class="col-1.5">
+                                <a href="/mark/{{item.id}}/available/" class="btn btn-success btn-sm active" role="button"
+                                   aria-pressed="true">mark as available
+                                </a>
+
+                                <a href="/delete/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
+                                   aria-pressed="true">delete
+                                </a>
+
+                                <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
+                                   aria-pressed="true">edit
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% endif %}
                     </div>
                   </div><br>
 
-
-
-                    <br>
-
-                {% if item.available %}
-                    Available
-                    <div class="col-1.5">
-                        <a href="/mark/{{item.id}}/unavailable/" class="btn btn-dark btn-sm active" role="button"
-                           aria-pressed="true">mark as unavailable
-                        </a>
-                        <a href="/delete/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
-                           aria-pressed="true">delete
-                        </a>
-                        <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
-                           aria-pressed="true">edit
-                        </a>
-                        {% if item.promoted %}
-                            Promoted
-                        {% else %}
-                            <a href="/pay_promotion/{{item.id}}" class="btn btn-danger btn-sm active" role="button" aria-pressed="true">Promote</a>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">Comments</h6>
+                    </div>
+                    <div class="card-body">
+                        {% with comments.count as total_comments %} <h2>
+                               {{ total_comments }} comment{{ total_comments|pluralize }}
+                             </h2>
+                        {% endwith %}
+                       {% for comment in comments %}
+                        <div class="comment">
+                            <p class="info">
+                            Comment {{ forloop.counter }} by {{ comment.author }} {{ comment.created }}
+                            </p>
+                            {{ comment.body|linebreaks }}
+                        </div>
+                        {% empty %}
+                            <p>There are no comments yet.</p>
+                        {% endfor %}
+                        {% if new_comment %}
+                            <h2>Your comment has been added.</h2>
+                            {% else %}
+                            <h2>Add a new comment</h2>
+                            <form action="/item_detail/{{item.id}}/" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {{ form.author }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.body }}
+                                </div>
+                               <div class="text-right">
+                                    <button type="submit" class="btn btn-labeled btn-success" ><span class="btn-label"><i class="fa fa-paper-plane" aria-hidden="true"></i></span>Submit</button>
+                               </div>
+                            </form>
                         {% endif %}
-                    </div>
-                {% else %}
-                    Not Available
-                    <div class="col-1.5">
-                        <a href="/mark/{{item.id}}/available/" class="btn btn-success btn-sm active" role="button"
-                           aria-pressed="true">mark as available
-                        </a>
 
-                        <a href="/delete/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
-                           aria-pressed="true">delete
-                        </a>
+                    </div>
+                </div>
 
-                        <a href="/edit/{{item.id}}/" class="btn btn-warning btn-sm active" role="button"
-                           aria-pressed="true">edit
-                        </a>
-                    </div>
-                {% endif %}
-                <br>
-                <br>
-                <h3>Leave a comment:</h3>
-                <form action="/item_detail/{{item.id}}/" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ form.author }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.body }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-                <h3>Comments:</h3>
-                {% for comment in comments %}
-                <p>
-                    On {{comment.created_on.date }}&nbsp;
-                    <b>{{ comment.author }}</b> wrote:
-                </p>
-                <p>{{ comment.body }}</p>
-                <hr>
-                {% endfor %}
+
             </div>
         </div>
 

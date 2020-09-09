@@ -97,7 +97,7 @@
                             {% if item.item_image %}
                                 {{item.item_image.url}}
                             {% else %}
-                                {% static 'image/no_image.png' %}
+                                {% static 'images/no_image.png' %}
                             {% endif %}
                             "
                                  class="d-block w-100" alt="...">
@@ -127,8 +127,9 @@
                         <p class="card-text">{{item.name_of_item}}</p>
                         <p class="card-text">{{item.description_of_item}}</p>
                     </div>
-                  </div><br>
-                {% if item.approved %}
+                  </div>
+                <br>
+                 {% if item.approved %}
                     Approved
 
                     <div class="col-1.5">
@@ -146,15 +147,22 @@
                         </a>
                     </div>
                 {% endif %}
+
+
+                <br>
+
+
             </div>
-
-
-
         </div>
 
     </div>
 {% endif %}
 {% endblock %}
+
+
+
+
+
 
 
 

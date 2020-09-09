@@ -3,9 +3,9 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from yo.models.aditem import AdItem, Comment, PayPromotion
+from yo.models.aditem import AdItem, Comment
 from django import forms
-from yo.forms.yo_form import AdForm, CommentForm, PayPromotionForm# NewForm
+from yo.forms.yo_form import AdForm, CommentForm # NewForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -15,16 +15,17 @@ from django.core.mail import send_mail
 
 
 def index(request):
+    #import pdb; pdb.set_trace()
     all_items = AdItem.objects.filter(approved=True).order_by('-promoted')
     my_range = range(0, len(all_items), 3)
-    #print(my_range)
+    print(my_range)
     items = []
 
     for i in my_range:
-        sub_array = all_items[i:i+3]
-        items.append(sub_array)
+       sub_array = all_items[i:i+3]
+       items.append(sub_array)
 
-    #print(items)
+    print(items)
     # import pdb; pdb.set_trace()
     return render(request, 'yo/index.html', {'items': items})
 
@@ -52,7 +53,7 @@ def save(request):
             new_item.date_published = item_form.cleaned_data['date_published']
             new_item.description_of_item = item_form.cleaned_data['description_of_item']
             new_item.price = item_form.cleaned_data['price']
-            new_item.category_of_item = item_form.cleaned_data['category_of_item']
+            new_item.category = item_form.cleaned_data['category']
             new_item.brand_name_of_item = item_form.cleaned_data['brand_name_of_item']
             new_item.location = item_form.cleaned_data['location']
             new_item.contact = item_form.cleaned_data['contact']
@@ -87,7 +88,7 @@ def approve(request):
 
 
 @login_required(login_url='users:login')
-def pending_approval_item_detail(request,item_id):
+def pending_approval_item_detail(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     return render(request, 'yo/pending_approval_item_detail.html', {'item': item})
 
@@ -110,90 +111,6 @@ def mark_as_approved_rescinded(request, item_id):
     return render(request, 'yo/pending_approval_item_detail.html', {'item': item})
 
 
-@login_required(login_url='users:login')
-def promotions(request):
-    all_items = AdItem.objects.filter(promoted=False)
-    my_range = range(0, len(all_items), 3)
-    # print(my_range)
-    items = []
-    for i in my_range:
-        sub_array = all_items[i:i + 3]
-        items.append(sub_array)
-
-    # print(items)
-    # import pdb; pdb.set_trace()
-    return render(request, 'yo/to_be_promoted.html', {'items': items})
-
-
-def pay_promotion(request, item_id):
-    item = AdItem.objects.get(pk=item_id)
-    form = PayPromotionForm()
-    return render(request, 'yo/pay_promotion.html', {'form': form, 'item': item})
-
-
-def save_pay_promotion(request, item_id):
-    item = AdItem.objects.get(pk=item_id)
-    if request.method == "POST":
-        form = PayPromotionForm(request.POST)
-        if form.is_valid():
-            new_pay_promotion = PayPromotion()
-            new_pay_promotion.promotional_price = form.cleaned_data['promotional_price']
-            new_pay_promotion.promotion = item
-            new_pay_promotion.save()
-
-        return render(request, 'yo/item_detail.html')
-
-    else:
-        form = PayPromotionForm()
-    return render(request, 'yo/pay_promotion.html', {'form': form, 'item': item})
-
-
-@login_required(login_url='users:login')
-def edit_pay_promotion(request, pay_promotion_id):
-    pay_promotion = PayPromotion.objects.get(pk=pay_promotion_id)
-    params = {'promotional_price': pay_promotion.promotional_price,
-
-              }
-    pay_promotion_form = PayPromotionForm(initial=params)
-    return render(request, 'yo/edit_pay_promotion.html', {'pay_promotion': pay_promotion, 'form': pay_promotion_form})
-
-
-@login_required(login_url='users:login')
-def update_pay_promotion(request, pay_promotion_id):
-    pay_promotion = PayPromotion.objects.get(pk=pay_promotion_id)
-    pay_promotion_form = PayPromotionForm(request.POST)
-    if pay_promotion_form.is_valid():
-        new_pay_promotion = PayPromotion()
-        new_pay_promotion.promotional_price = pay_promotion_form.cleaned_data['promotional_price']
-        new_pay_promotion.save()
-
-        return HttpResponseRedirect('/')
-    else:
-        return render(request, 'yo/edit_pay_promotion.html', {'pay_promotion': pay_promotion, 'form': pay_promotion_form})
-
-
-@login_required(login_url='users:login')
-def pending_promotional_item_detail(request,item_id):
-    item = AdItem.objects.get(pk=item_id)
-    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
-
-
-@login_required(login_url='users:login')
-def mark_as_promoted(request, item_id):
-    item = AdItem.objects.get(pk=item_id)
-    item.promoted = True
-    item.save()
-    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
-
-
-@login_required(login_url='users:login')
-def mark_as_promotion_rescinded(request, item_id):
-    item = AdItem.objects.get(pk=item_id)
-    item.promoted = False
-    item.save()
-    return render(request, 'yo/pending_promotional_item_detail.html', {'item': item})
-
-
 def item_detail(request, item_id):
     item = AdItem.objects.get(pk=item_id)
     form = CommentForm()
@@ -201,8 +118,8 @@ def item_detail(request, item_id):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = Comment(
-                author=form.cleaned_data["author"],
-                body=form.cleaned_data["body"],
+                author=comment_form.cleaned_data["author"],
+                body=comment_form.cleaned_data["body"],
                 post=item
             )
             comment.save()
@@ -220,7 +137,7 @@ def edit(request, item_id):
               'date_published': item.date_published,
               'description_of_item': item.description_of_item,
               'price': item.price,
-              'category_of_item': item.category_of_item,
+              'category': item.category,
               'brand_name_of_item': item.brand_name_of_item,
               'location': item.location,
               'contact': item.contact,
@@ -243,7 +160,7 @@ def update(request, item_id):
         item.date_published = item_form.cleaned_data['date_published']
         item.description_of_item = item_form.cleaned_data['description_of_item']
         item.price = item_form.cleaned_data['price']
-        item.category_of_item = item_form.cleaned_data['category_of_item']
+        item.category = item_form.cleaned_data['category']
         item.brand_name_of_item = item_form.cleaned_data['brand_name_of_item']
         item.location = item_form.cleaned_data['location']
         item.contact = item_form.cleaned_data['contact']

@@ -1,12 +1,10 @@
 from django import forms
 
-from yo.models.aditem import AdItem
+from yo.models.aditem import AdItem, Category, Comment
 
 
 class AdForm(forms.Form):
-#     remove all other fields I just want us to investigate date time field
-    # thus create a new form and a new view to create the empty form and also to receive and process it
-    #
+
     name_of_item = forms.CharField(
         max_length=20,
         widget=forms.TextInput({'class': 'form-control'}),
@@ -29,14 +27,13 @@ class AdForm(forms.Form):
         widget=forms.TextInput({'class': 'form-control'}),
     )
 
-    price = forms.CharField(
-        max_length=20,
-        widget=forms.TextInput({'class': 'form-control'}),
+    price = forms.FloatField(
+        widget=forms.NumberInput(attrs={'id': 'form_price', 'step': "0.01", 'class': 'form-control'})
     )
 
-    category_of_item = forms.CharField(
-        max_length=20,
-        widget=forms.TextInput({'class': 'form-control'}),
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
     )
 
     brand_name_of_item = forms.CharField(
@@ -83,15 +80,11 @@ class CommentForm(forms.Form):
     )
 
 
-class PayPromotionForm(forms.Form):
-    promotional_price = forms.CharField(
-        max_length=10,
-        widget=forms.TextInput(attrs={
-            "class": "form-control",
-            "placeholder": "Enter an amount"
-        })
-    )
-
-
-
-
+# class PayPromotionForm(forms.Form):
+#     promotional_price = forms.CharField(
+#         max_length=10,
+#         widget=forms.TextInput(attrs={
+#             "class": "form-control",
+#             "placeholder": "Enter an amount"
+#         })
+#     )
